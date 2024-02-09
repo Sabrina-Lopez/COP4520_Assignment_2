@@ -1,0 +1,21 @@
+# How to run assignment
+- Clone repository.
+- Open Command Prompt.
+- Traverse local device to the repository's directory.
+- In Command Prompt, 
+    - For Problem #1: run `javac problem1.java` then `java problem1.java`.
+    - For Problem #2: run `javac problem2.java` then `java problem2.java`.
+
+# Problem #1 
+## Explanation and Experimental Evaluation
+
+In this simulation, each party guest is represented as a thread, which is created and then started. The threads are created as an array of threads, and the first thread at index 0 is utilized as a counter of the guests that has visited the labriynth and replaced the cupcake. If there is no cupcake in the labyrinth, that means a new guest ate the cupcake and the counter increments, resulting in the minotaur's servant to bring out another cupcake. These guests will each eat a cupcake if they haven't eaten already. Otherwise, if the guests ate already, they will visit the labyrinth but not eat. The guests keep going to the labyrinth until every guest has eaten a cupcake at least once, which is known when the counter by thread 0 reaches the total number of guests.
+
+This simulation takes around 18 ms with 50 guests, 81 ms for 100 guests, 163 ms with 150 guests, and 307 ms for 200 guests. Data racing is used so the threads for guests are constantly competing to go inside the labyrinth. Yet, only one thread or guest can go in at a time. The guests enter the labyrinth in random order until the number of unique guests that ate a cupcake and visited the labyrinth is equal to the number of total party guests. Due to the competition between guests to enter the labriynth, a lock is used so that only one guest can enter the labyrinth at a time. The lock is locked when a guest enters and unlocked when they leave. This allows all guests try to go in for more concurrent efficiency and only one enters at a time.
+
+# Problem #2 
+## Explanation and Experimental Evaluation
+
+In this simulation, each guest is represented as a thread, which is created and then started. The threads are created as an array of threads. Initially in the simulation, the showroom sign on the door is available and the busy boolean is set as false. Data racing is used so the threads for guests are constantly competing to go inside the showroom. When guests go in, they change the sign on the showroom door to busy, changing the busy boolean to true. Threads inside the showroom sleep for a predetermined time to simulate the vase viewing and then the guest in the showroom sets the sign to available, changing the busy boolean to false. Each guest has a chance that they will want to visit the crystal vase. To specify, chance is an integer that is either 0 or 1. The guest has the chance to view the vase when the chance variable is 1, which is intially set as so for all guests. Each time a guest views the vase, chance is randomly calculated for if they will want to view the vase again. The program ends when every guest has seen the vase at least once. Every time a unique guest sees the vase, the visited guests counter increments.
+
+This program usually takes around 8 seconds for 50 guests, 26 seconds for 100 guests, 51 seconds for 150 guests, and 78 seconds for 200 guests. Randomness is used in the runtime because the program can take longer if the same guests visit the vase multiple times, if their chance value stays as 1. However, this program is efficient since the guests only try to view the vase if the showroom is available. In other words, option 2 is the best of the three options. Option 1 is not suitable as, while all the guests get to roam the castle, in terms of threads, having multiple guests at the showroom at the same time will present race conditions. Meanwhile, option 3 is not suitable as, while all the guests can make a line in a fair order to see the vase, in terms of threads, having the queue can result in a deadlock. While the randomness of option 2 will take more time for all the unique guests so see the vase, at least there will be no race conditions due to the flag represented by the door sign and no deadlock.
